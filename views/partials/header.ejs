@@ -1,0 +1,36 @@
+<html>
+<head>
+    <title>Lærer - Learn new words quickly and effectively</title>
+    <link rel="stylesheet" href="/frontLib/css-reset-and-normalize/reset-and-normalize.min.css">
+    <link rel="stylesheet" href="/frontLib/tether/css/tether.min.css">
+    <link rel="stylesheet" href="/frontLib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/frontLib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/frontLib/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="/css/global.css">
+
+    <script src="/frontLib/socket.io/socket.io.js"></script>
+    <script src="/frontLib/jquery/jquery.min.js"></script>
+    <script src="/frontLib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/frontLib/tether/js/tether.min.js"></script>
+    <script src="/frontLib/popper/popper.min.js"></script>
+    <script src="/frontLib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/frontLib/dot-object/dot-object.min.js"></script>
+    <script src="/frontLib/moment/moment.min.js"></script>
+    <script src="/frontLib/particles.js/particles.js"></script>
+    <script src="/js/lib/notify.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/helpers.js"></script>
+    <script src="/js/globals.js"></script>
+    <script>
+        if (typeof USER === `undefined`){
+            const USER = helpers.parseJson(`<%- JSON.stringify(typeof user !== 'undefined' ? user : {}) %>`);
+        }
+        if (typeof HOST === `undefined`){
+            const HOST = `<%= typeof host !== 'undefined' ? host : '' %>`;
+        }
+    </script>
+</head>
+<body>
+    <div id="background"></div>
+    <div class="container-fluid" id="mainContainer">
+<% include ./error %>

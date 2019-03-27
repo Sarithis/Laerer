@@ -1,0 +1,44 @@
+<% include partials/header %>
+<% include partials/navbar %>
+<link rel="stylesheet" href="/css/main.css">
+<script src="/js/main.js"></script>
+
+<div class="row justify-content-center align-items-center h-75">
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-header">Start learning</div>
+            <div class="card-body">
+                <h5 class="card-title">How to learn:</h5>
+                <p class="card-text">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success"><strong>1.</strong> Read the randomly selected word</li>
+                        <li class="list-group-item list-group-item-success"><strong>2.</strong> Type in the translation</li>
+                        <li class="list-group-item list-group-item-success">&nbsp&nbsp&nbsp&nbspThe success rate changes as you type</li>
+                        <li class="list-group-item list-group-item-success"><strong>3.</strong> Click "I failed" if you don't know the translation</li>
+                        <li class="list-group-item list-group-item-success"><strong>4.</strong> Click "Go" if you translated the word correctly</li>
+                    </ul>
+                </p>
+                <a href="#" class="btn btn-primary w-100">Start</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-dark text-white">
+            <div class="card-header">Edit my words</div>
+            <div class="card-body">
+                <h5 class="card-title">How to edit:</h5>
+                <p class="card-text">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-dark"><strong>1.</strong> Click "Add new" to create a new word</li>
+                        <li class="list-group-item list-group-item-dark"><strong>2.</strong> Fill out neccessary information</li>
+                        <li class="list-group-item list-group-item-dark"><strong>3.</strong> You can edit every word in the list</li>
+                        <li class="list-group-item list-group-item-dark">&nbsp&nbsp&nbsp&nbspTo do that click on the information you want to change</li>
+                        <li class="list-group-item list-group-item-dark"><strong>4.</strong> Click "Save" to save the current list</li>
+                    </ul>
+                </p>
+                <a href="/edit" class="btn btn-secondary w-100">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+<% include partials/footer %>

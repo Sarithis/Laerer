@@ -1,0 +1,32 @@
+<% if (locals.flash && flash.error && flash.error != "") { %>
+    <div class="alert alert-danger fixed-top fade show flash" role="alert">
+        <strong>Error:</strong> <%= flash.error %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% } %>
+<% if (locals.flash && flash.success && flash.success != "") { %>
+    <div class="alert alert-success fixed-top fade show flash">
+        <strong>Success:</strong> <%= flash.success %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% } %>
+<% if (locals.flash && flash.warning && flash.warning != "") { %>
+    <div class="alert alert-warning fixed-top fade show flash">
+        <strong>Warning:</strong> <%= flash.warning %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% } %>
+<% if (locals.flash && flash.info && flash.info != "") { %>
+    <div class="alert alert-info fixed-top fade show flash">
+        <strong>Info:</strong> <%= flash.info %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% } %>

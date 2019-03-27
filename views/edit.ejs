@@ -1,0 +1,39 @@
+<% include partials/header %>
+<% include partials/navbar %>
+<script>
+    if (typeof WORDS === `undefined`) {
+        var WORDS = helpers.parseJson(`<%- JSON.stringify(words) %>`);
+    }
+</script>
+
+<link rel="stylesheet" href="/css/edit.css">
+<script src="/js/edit.js"></script>
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-md-8">
+        <h5 class="text-center bg-secondary text-white p-3 ">
+            <a href="/main" class="position-absolute" style="left: 30px; font-size: 25px;" title="Go back">
+                <i class="fa fa-arrow-left text-white"></i>
+            </a> Your wordlist:
+            <button class="btn btn-success position-absolute" style="right: 30px; top: 10px;" id="addWordBtn">Add new</button>
+        </h5>
+        <div class="h-75 mh-75 overflow-auto">
+            <table class="table table-bordered table-hover bg-light" id="wordTable">
+                <colgroup>
+                </colgroup>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" style="width: 5%;">#</th>
+                        <th scope="col" style="width: 15%;">Art./Prepos.</th>
+                        <th scope="col" style="width: 30%;">Word</th>
+                        <th scope="col" style="width: 15%;">For. Art./Prepos.</th>
+                        <th scope="col" style="width: 30%;">Foreign Word</th>
+                        <th scope="col" style="width: 5%;">Score</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<% include partials/footer %>

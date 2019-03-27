@@ -1,0 +1,44 @@
+canvas.particles-js-canvas-el {
+    display: block;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+}
+
+img.logo {
+    display: block;
+    width: 100%;
+}
+
+.flash {
+    animation: flash-response 0.5s 1;
+    animation-fill-mode: forwards;
+    animation-delay: 10s;
+    /* Safari and Chrome */
+    -webkit-animation: flash-response 0.5s 1;
+    -webkit-animation-delay: 10s;
+    -webkit-animation-fill-mode: forwards;
+}
+
+.navbar-brand{
+    max-height: 50px;
+    max-width: 50px;
+}
+
+@keyframes flash-response {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes flash-response {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

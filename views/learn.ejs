@@ -1,0 +1,34 @@
+<% include partials/header %>
+<link rel="stylesheet" href="/css/main.css">
+<script src="/js/main.js"></script>
+
+<nav class="navbar navbar-light">
+    <a class="navbar-brand" href="#">
+        <img class="logo" src="/img/logo.png" />
+    </a>
+    <a href="/logout">
+        <button class="btn btn-outline-danger my-2 my-sm-0">Logout</button>
+    </a>
+</nav>
+
+<div class="row justify-content-center align-items-center h-75">
+    <div class="col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-header">Start learning</div>
+            <div class="card-body">
+                <h5 class="card-title">How to learn:</h5>
+                <p class="card-text">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success"><strong>1.</strong> Read the randomly selected word</li>
+                        <li class="list-group-item list-group-item-success"><strong>2.</strong> Type in the translation</li>
+                        <li class="list-group-item list-group-item-success">&nbsp&nbsp&nbsp&nbspThe success rate changes as you type</li>
+                        <li class="list-group-item list-group-item-success"><strong>3.</strong> Click "I failed" if you don't know the translation</li>
+                        <li class="list-group-item list-group-item-success"><strong>4.</strong> Click the enter key or "Go" if you translated the word correctly</li>
+                    </ul>
+                </p>
+                <a href="#" class="btn btn-primary w-100">Start</a>
+            </div>
+        </div>
+    </div>
+</div>
+<% include partials/footer %>
