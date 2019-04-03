@@ -1,0 +1,13 @@
+.actionButton{
+    width: 48%;
+    min-width: 60px;
+    padding: 0px 5px 0px 5px;
+}
+
+#wordTable{
+    table-layout: fixed;
+}
+
+#wordTable tr, #wordTable td{
+    overflow: hidden;
+}

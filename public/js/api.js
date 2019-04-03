@@ -30,8 +30,14 @@ const api = {
         return result;
     },
     word: {
-        add: (word) => {
-            return api._performAjaxCall(`/api/word`, `POST`, word);
+        add: (wordObj) => {
+            return api._performAjaxCall(`/api/word`, `POST`, wordObj);
+        },
+        delete: (wordId) => {
+            return api._performAjaxCall(`/api/word/${encodeURIComponent(wordId)}`, `DELETE`);
+        },
+        update: (wordId, wordObj) => {
+            return api._performAjaxCall(`/api/word/${encodeURIComponent(wordId)}`, `PUT`, wordObj);
         },
     }
 };

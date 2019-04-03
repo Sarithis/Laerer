@@ -148,6 +148,10 @@ module.exports = {
     word: {
         add: async ({word, logging = true, callId = null}) => {
             callId = h.generateCallId(callId);
+            //Override possible trickery
+            word.score = 0;
+            word.succeeded = 0;
+            word.failed = 0;
             return await generics.add({
                 inputObj: word,
                 modelName: `word`,

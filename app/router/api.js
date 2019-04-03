@@ -97,7 +97,7 @@ module.exports = {
             let parsedWord = null;
             try {
                 parsedWord = h.optionalParse(req.body.data);
-                parsedWord.userId = req.user._id; //Override userId
+                parsedWord.userId = req.user._id.toString(); //Override userId
             } catch (error) {
                 return handleError(req, res, error);
             }
@@ -109,23 +109,48 @@ module.exports = {
     delete: {
         /**
         **/
-        '/api/example': (req, res, next) => {
-            if (!handleMandatoryArgs({argMap: {}, args: req.params})){
+        '/api/word/:id': async (req, res, next) => {
+            if (!handleMandatoryArgs({argMap: {id: true}, args: req.params})){
                 return handleError(req, res, `Incorrect or incomplete arguments`);
             }
-            performApiCall({req, res, apiFunc: api.example.delete, args: {
+            try {
+                const canDelete = await checkUserPersmissions({req, model: `word`, id: req.params.id});
+                if (!canDelete){
+                    throw(`This user can't delete a word with this ID`);
+                }
+            } catch (error) {
+                return handleError(req, res, error);
+            }
+            performApiCall({req, res, apiFunc: api.word.delete, args: {
+                id: req.params.id
             }});
         },
     },
     put: {
         /**
         **/
-        '/api/example': (req, res, next) => {
-            if (!handleMandatoryArgs({argMap: {}, args: req.params})){
+        '/api/word/:id': async (req, res, next) => {
+            if (!handleMandatoryArgs({argMap: {id: true}, args: req.params})){
                 return handleError(req, res, `Incorrect or incomplete arguments`);
             }
-            const data = h.optionalParse(req.body.data);
-            performApiCall({req, res, apiFunc: api.example, args: {}});
+            if (!handleMandatoryArgs({argMap: {id: true}, args: req.params})){
+                return handleError(req, res, `Incorrect or incomplete arguments`);
+            }
+            let parsedWord = null;
+            try {
+                const canUpdate = await checkUserPersmissions({req, model: `word`, id: req.params.id});
+                if (!canUpdate){
+                    throw(`This user can't update a word with this ID`);
+                }
+                parsedWord = h.optionalParse(req.body.data);
+                parsedWord.userId = req.user._id.toString(); //Override userId
+            } catch (error) {
+                return handleError(req, res, error);
+            }
+            performApiCall({req, res, apiFunc: api.word.update, args: {
+                id: req.params.id,
+                word: parsedWord
+            }});
         },
     }
 };

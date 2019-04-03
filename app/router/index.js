@@ -92,7 +92,7 @@ module.exports = () => {
                 });
             }],
             '/edit': [authFunctions.isAuthenticated, async (req, res, next) => {
-                const words = await api.word.search({userId: req.user._id});
+                const words = await api.word.search({query: {userId: req.user._id}});
                 res.render(`edit`, {
                     flash: h.generateFlash(req),
                     host: config.server.host,
