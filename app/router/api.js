@@ -75,6 +75,15 @@ const performApiCall = ({req, res, apiFunc, args, successCallback, logging = tru
     });
 };
 
+const checkUserPersmissions = async ({req, model, id}) => {
+    const result = await api[model].get({id});
+    if (typeof result === `object` && result.userId !== undefined){
+        return result.userId.equals(req.user._id);
+    } else {
+        throw(`Wrong API result for ${model} - ${id}`);
+    }
+}
+
 module.exports = {
     get: {
         '/api/example': (req, res, next) => {

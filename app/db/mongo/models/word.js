@@ -44,7 +44,7 @@ module.exports = (mongoose) => {
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            select: false
+            select: true
         },
     }, {
         collection: `words`,
