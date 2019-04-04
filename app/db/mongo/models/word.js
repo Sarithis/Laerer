@@ -1,5 +1,7 @@
 `use strict`;
 
+const h = require(`../../../helpers`);
+
 module.exports = (mongoose) => {
     const wordSchema = new mongoose.Schema({
         word: {
@@ -30,6 +32,7 @@ module.exports = (mongoose) => {
             required: false,
             type: Number,
             default: 0,
+            index: 1,
         },
         failed: {
             required: false,
@@ -46,6 +49,13 @@ module.exports = (mongoose) => {
             required: true,
             select: true
         },
+        translatedTimestamp: {
+            type: Date,
+            default: h.getCorrectedTimestamp,
+            timezone: `Europe/Warsaw`,
+            required: false,
+            index: 1
+        }
     }, {
         collection: `words`,
     });

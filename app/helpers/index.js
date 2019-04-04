@@ -20,6 +20,14 @@ module.exports = {
             info: req.flash(`info`)
         };
     },
+    getCorrectedTimestamp: () => {
+        return moment().tz(`Europe/Warsaw`).subtract(0, `hour`);
+    },
+    getRandomInt: (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    },
     /**
         Returns an array of paths to populate from the given schema (autopopulate must == true)
     **/

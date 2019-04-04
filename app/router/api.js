@@ -86,8 +86,10 @@ const checkUserPersmissions = async ({req, model, id}) => {
 
 module.exports = {
     get: {
-        '/api/example': (req, res, next) => {
-            performApiCall({req, res, apiFunc: api.example.get});
+        '/api/word/next': (req, res, next) => {
+            performApiCall({req, res, apiFunc: api.word.getNext, args: {
+                userId: req.user._id.toString()
+            }});
         },
     },
     post: {

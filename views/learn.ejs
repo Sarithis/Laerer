@@ -1,6 +1,6 @@
 <% include partials/header %>
-<link rel="stylesheet" href="/css/main.css">
-<script src="/js/main.js"></script>
+<link rel="stylesheet" href="/css/learn.css">
+<script src="/js/learn.js"></script>
 
 <nav class="navbar navbar-light">
     <a class="navbar-brand" href="#">
@@ -11,22 +11,18 @@
     </a>
 </nav>
 
-<div class="row justify-content-center align-items-center h-75">
-    <div class="col-md-6">
-        <div class="card bg-success text-white">
-            <div class="card-header">Start learning</div>
+<div class="row justify-content-center align-items-center h-50">
+    <div class="col-md-4">
+        <div class="card bg-dark text-white">
+            <div class="card-header">Word to translate:</div>
             <div class="card-body">
-                <h5 class="card-title">How to learn:</h5>
+                <h5 class="card-title" cname="toTranslate"></h5>
                 <p class="card-text">
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-success"><strong>1.</strong> Read the randomly selected word</li>
-                        <li class="list-group-item list-group-item-success"><strong>2.</strong> Type in the translation</li>
-                        <li class="list-group-item list-group-item-success">&nbsp&nbsp&nbsp&nbspThe success rate changes as you type</li>
-                        <li class="list-group-item list-group-item-success"><strong>3.</strong> Click "I failed" if you don't know the translation</li>
-                        <li class="list-group-item list-group-item-success"><strong>4.</strong> Click the enter key or "Go" if you translated the word correctly</li>
-                    </ul>
+                    <input class="form-control" autofocus cname="translation"></input>
                 </p>
-                <a href="#" class="btn btn-primary w-100">Start</a>
+                <button class="btn btn-danger actionButton" cname="failed">I give up</button>
+                <button class="btn btn-warning actionButton" cname="hint">Give me a hint</button>
+                <button class="btn btn-success actionButton" cname="next" disabled>Next</button>
             </div>
         </div>
     </div>

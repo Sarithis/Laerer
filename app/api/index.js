@@ -215,5 +215,30 @@ module.exports = {
                 throw error;
             }
         },
+        getNext: async ({userId, logging = true, callId = null}) => {
+            callId = h.generateCallId(callId);
+            logger.api(`Getting the next word`, {logging, identifier: `api word getNext`, meta: {}, callId});
+            try{
+                //Get a random number of words (5-20) sorted ascending by score
+                const dbResponse = await mongoDb.word.find({userId: userId}).sort({score: 1}).limit(h.getRandomInt(5, 20)).exec();
+                let result = null;
+                if (dbResponse instanceof Array){
+                    result = dbResponse.map((entry) => {
+                        return entry.toObject();
+                    });
+                    //Sort the extracted words by translatedTimestamp
+                    result = result.reduce((prev, current) => (prev.translatedTimestamp < current.translatedTimestamp) ? prev : current);
+                } else {
+                    result = dbResponse.toObject();
+                }
+                //Determine the direction of translation
+                result.translateFromForeign = Math.random() > 0.5 ? true : false;
+                logger.api(`Returning the next word: ${result.word}`, {logging, identifier: `api word getNext`, meta: {result}, callId});
+                return result;
+            } catch (error){
+                logger.error(`Failed to get the next word : ${h.optionalStringify(error)}`, {identifier: `api word getNext`, meta: {}, callId});
+                throw error;
+            }
+        },
     }
 };

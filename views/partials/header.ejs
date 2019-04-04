@@ -25,10 +25,10 @@
     <script src="/js/globals.js"></script>
     <script>
         if (typeof USER === `undefined`){
-            const USER = helpers.parseJson(`<%- JSON.stringify(typeof user !== 'undefined' ? user : {}) %>`);
+            const USER = helpers.parseJson(`<%- JSON.stringify(typeof user !== "undefined" ? user : {}) %>`);
         }
         if (typeof HOST === `undefined`){
-            const HOST = `<%= typeof host !== 'undefined' ? host : '' %>`;
+            const HOST = `<%= typeof host !== "undefined" ? host : "" %>`;
         }
     </script>
 </head>

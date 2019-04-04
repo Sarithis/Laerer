@@ -36,6 +36,9 @@ const api = {
         delete: (wordId) => {
             return api._performAjaxCall(`/api/word/${encodeURIComponent(wordId)}`, `DELETE`);
         },
+        getNext: (wordId) => {
+            return api._performAjaxCall(`/api/word/next`, `GET`);
+        },
         update: (wordId, wordObj) => {
             return api._performAjaxCall(`/api/word/${encodeURIComponent(wordId)}`, `PUT`, wordObj);
         },
