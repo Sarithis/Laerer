@@ -148,10 +148,6 @@ module.exports = {
     word: {
         add: async ({word, logging = true, callId = null}) => {
             callId = h.generateCallId(callId);
-            //Override possible trickery
-            word.score = 0;
-            word.succeeded = 0;
-            word.failed = 0;
             return await generics.add({
                 inputObj: word,
                 modelName: `word`,
@@ -219,8 +215,15 @@ module.exports = {
             callId = h.generateCallId(callId);
             logger.api(`Getting the next word`, {logging, identifier: `api word getNext`, meta: {}, callId});
             try{
-                //Get a random number of words (5-20) sorted ascending by score
-                const dbResponse = await mongoDb.word.find({userId: userId}).sort({score: 1}).limit(h.getRandomInt(5, 20)).exec();
+                let dbResponse = null;
+                if (Math.random() > 0.1){ //A standard mode
+                    //Get a random number of words (5-20) sorted ascending by score
+                    logger.api(`Mode: standard`, {logging, identifier: `api word getNext`, meta: {}, callId});
+                    dbResponse = await mongoDb.word.find({userId: userId}).sort({score: 1}).limit(h.getRandomInt(5, 20)).exec();
+                } else { //Sometimes get the word that was not translated in a long time (ignore the score)
+                    logger.api(`Mode: ignore the score`, {logging, identifier: `api word getNext`, meta: {}, callId});
+                    dbResponse = await mongoDb.word.find({userId: userId}).sort({translatedTimestamp: 1}).limit(1).exec();
+                }
                 let result = null;
                 if (dbResponse instanceof Array){
                     result = dbResponse.map((entry) => {
@@ -232,7 +235,7 @@ module.exports = {
                     result = dbResponse.toObject();
                 }
                 //Determine the direction of translation
-                result.translateFromForeign = Math.random() > 0.5 ? true : false;
+                result.translateFromForeign = Math.random() > 0.8 ? true : false;
                 logger.api(`Returning the next word: ${result.word}`, {logging, identifier: `api word getNext`, meta: {result}, callId});
                 return result;
             } catch (error){

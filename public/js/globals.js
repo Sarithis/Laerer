@@ -7,6 +7,6 @@ const handleError = (error) => {
 
 $(document).ready(() => {
     particlesJS.load(`background`, `assets/particles.json`, () => {
-      console.log(`callback - particles.js config loaded`);
+        console.log(`callback - particles.js config loaded`);
     });
 });
