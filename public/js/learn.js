@@ -8,7 +8,7 @@ $(document).ready(() => {
         toTranslate: $(`.card-body > [cname="toTranslate"]`),
         translationInpt: $(`input[cname="translationInpt"]`),
         title: $(`.card-header`),
-        input: $(`input[cname='translation']`)
+        input: $(`input[cname="translation"]`)
     };
 
     let pJS = null;
@@ -30,6 +30,11 @@ $(document).ready(() => {
                     },
                     color: {
                         rgb: pJS.particles.color.rgb
+                    },
+                    shape: {
+                        stroke: {
+                            color: pJS.particles.shape.stroke.color
+                        }
                     }
                 }
             }));
@@ -43,6 +48,10 @@ $(document).ready(() => {
             if (!response.status){
                 throw(`Oops, something went wrong!`);
             }
+            const wordObj = response.data;
+            if (wordObj.translateFromForeign){
+                f.speak(f.getTextToTranslate(wordObj), `Norwegian Female`);
+            }
             return response.data;
         },
         restorePJSConfig: () => {
@@ -51,6 +60,7 @@ $(document).ready(() => {
             pJS.particles.line_linked.color_rgb_line = originalPJSConfig.particles.line_linked.color_rgb_line
             pJS.particles.move.speed = originalPJSConfig.particles.move.speed
             pJS.particles.color.rgb = originalPJSConfig.particles.color.rgb;
+            pJS.particles.shape.stroke.color = originalPJSConfig.particles.shape.stroke.color;
         },
         successTranslation: async (wordObj) => {
             try{
@@ -166,6 +176,9 @@ $(document).ready(() => {
             };
             return color;
         },
+        speak: (text, language, pitch, rate) => {
+            responsiveVoice.speak(text, language, {rate: 0.9});
+        },
     };
 
     (async () => {
@@ -183,6 +196,9 @@ $(document).ready(() => {
             f.animateBackground(lastSimilarity, newSimilarity);
             lastSimilarity = newSimilarity;
             if (newSimilarity === 1){
+                if (!wordObj.translateFromForeign){
+                    f.speak(f.getTextTranslated(wordObj), `Norwegian Female`);
+                }
                 $(this).attr(`disabled`, true);
                 jq.nextBtn.effect(`pulsate`, {times: 1}, 400);
                 jq.nextBtn.attr(`disabled`, false);
@@ -193,6 +209,15 @@ $(document).ready(() => {
                 jq.failedBtn.trigger(`click`);
             } else if (event.ctrlKey && event.shiftKey){
                 jq.hintBtn.trigger(`click`);
+            } else if (event.shiftKey && event.which === 219){
+                event.preventDefault();
+                jq.input.val(jq.input.val() + `å`);
+            } else if (event.shiftKey && event.which === 186){
+                event.preventDefault();
+                jq.input.val(jq.input.val() + `ø`);
+            } else if (event.shiftKey && event.which === 222){
+                event.preventDefault();
+                jq.input.val(jq.input.val() + `æ`);
             } else if ($(event.target).get(0) == jq.input.get(0)){
                 return;
             } else if (event.which === 13 && jq.nextBtn.attr(`disabled`) !== false){
@@ -213,6 +238,9 @@ $(document).ready(() => {
             jq.input.attr(`disabled`, true);
             f.animateBackground(0, 0, true);
             jq.nextBtn.attr(`disabled`, false);
+            if (!wordObj.translateFromForeign){
+                f.speak(f.getTextTranslated(wordObj), `Norwegian Female`);
+            }
         });
         jq.hintBtn.click(async () => {
             lastSimilarity = 0;
@@ -221,7 +249,7 @@ $(document).ready(() => {
             if ((wordObj.translateFromForeign && wordObj.article.length > 0) || (!wordObj.translateFromForeign && wordObj.articleTranslation.length)){
                 jq.input.val(translatedText.substr(0, 4));
             } else {
-                jq.input.val(translatedText.substr(0, 2));
+                jq.input.val(translatedText.substr(0, Math.floor(translatedText.length / 3)));
             }
             jq.input.focus();
         });
