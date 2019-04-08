@@ -186,7 +186,7 @@ $(document).ready(() => {
         f.updateDomsFromWordObj(wordObj);
         let lastSimilarity = 0;
         jq.input.keyup(function (event) {
-            if (!(event.which >= 65 && event.which <= 120) && (![32, 0, 8, 46].includes(event.which))){
+            if (!(event.which >= 65 && event.which <= 120) && event.which !== 229 && (![32, 0, 8, 46].includes(event.which))){
                 return;
             }
             const calculateSimilarityTo = f.getTextTranslated(wordObj);
