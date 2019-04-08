@@ -236,6 +236,7 @@ $(document).ready(() => {
             await f.failedTranslation(wordObj);
             jq.input.val(f.getTextTranslated(wordObj));
             jq.input.attr(`disabled`, true);
+            jq.hintBtn.attr(`disabled`, true);
             f.animateBackground(0, 0, true);
             jq.nextBtn.attr(`disabled`, false);
             if (!wordObj.translateFromForeign){

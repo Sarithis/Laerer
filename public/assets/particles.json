@@ -53,7 +53,7 @@
             "direction": "none",
             "random": true,
             "straight": false,
-            "out_mode": "bounce",
+            "out_mode": "out",
             "bounce": true,
             "attract": {
                 "enable": false,
@@ -90,8 +90,8 @@
                 "speed": 10
             },
             "repulse": {
-                "distance": 200,
-                "duration": 5
+                "distance": 100,
+                "duration": 1
             },
             "push": {
                 "particles_nb": 10
