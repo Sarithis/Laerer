@@ -41,6 +41,8 @@
         "cookie-parser": "^1.4.4",
         "cookieparser": "^0.1.0",
         "css-reset-and-normalize": "^2.0.1",
+        "datatables": "^1.10.18",
+        "datatables.net-bs4": "^1.10.19",
         "dot-object": "^1.7.1",
         "ejs": "^2.6.1",
         "express": "^4.16.4",

@@ -6,28 +6,23 @@
     }
 </script>
 
+<script src="/frontlib/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="/frontlib/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+<link rel="stylesheet" href="/frontlib/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="/css/edit.css">
 <script src="/js/edit.js"></script>
 
 <div class="row justify-content-center align-items-center">
     <div class="col-md-8">
-        <h5 class="text-center bg-secondary text-white p-3 ">
+        <h5 class="text-center bg-secondary text-white p-3 m-0 border-bottom border-light">
             <a href="/main" class="position-absolute" style="left: 30px; font-size: 25px;" title="Go back">
                 <i class="fa fa-arrow-left text-white"></i>
             </a> Your wordlist:
             <button class="btn btn-success position-absolute" style="right: 30px; top: 10px;" id="addWordBtn">Add new</button>
         </h5>
-        <div class="h-75 mh-75 overflow-auto">
+        <div class="h-75">
             <table class="table table-bordered table-hover bg-light" id="wordTable">
-                <colgroup>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col class="bg-light">
-                </colgroup>
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" style="width: 3%;">#</th>
@@ -39,18 +34,6 @@
                         <th scope="col" style="width: 12%;">Action</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
-                <tfoot class="thead-dark d-none">
-                    <tr>
-                        <th scope="col" style="width: 5%;">#</th>
-                        <th scope="col" style="width: 10%;">Art.</th>
-                        <th scope="col" style="width: 15%;">Word</th>
-                        <th scope="col" style="width: 10%;">For. Art.</th>
-                        <th scope="col" style="width: 15%;">Foreign Word</th>
-                        <th scope="col" style="width: 5%;">Score</th>
-                        <th scope="col" style="width: 10%;">Action</th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

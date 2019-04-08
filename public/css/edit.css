@@ -4,10 +4,17 @@
     padding: 0px 5px 0px 5px;
 }
 
-#wordTable{
-    table-layout: fixed;
+.dt-disabled{
+    background-color: black;
 }
 
-#wordTable tr, #wordTable td{
-    overflow: hidden;
+#wordTable{
+    margin-top: 0 !important;
+}
+
+#wordTable_wrapper > div.row:first-child{ /* DT toolbar */
+    background-color: #6c757d !important;
+    color: white;
+    margin: 0;
+    padding-top: 8px;
 }

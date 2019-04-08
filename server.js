@@ -26,6 +26,8 @@ app.use(`/frontLib/moment`, express.static(`${appRoot}/node_modules/moment/min/`
 app.use(`/frontLib/particles.js`, express.static(`${appRoot}/node_modules/particles.js/`));
 app.use(`/frontLib/font-awesome`, express.static(`${appRoot}/node_modules/font-awesome/`));
 app.use(`/frontLib/dot-object/`, express.static(`${appRoot}/node_modules/dot-object/dist/`));
+app.use(`/frontLib/datatables/`, express.static(`${appRoot}/node_modules/datatables/`));
+app.use(`/frontLib/datatables.net-bs4/`, express.static(`${appRoot}/node_modules/datatables.net-bs4/`));
 app.use(`/frontLib/css-reset-and-normalize/`, express.static(`${appRoot}/node_modules/css-reset-and-normalize/css/`));
 
 
