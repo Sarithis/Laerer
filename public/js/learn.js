@@ -205,9 +205,9 @@ $(document).ready(() => {
             }
         });
         $(window).keydown((event) => {
-            if (event.ctrlKey && event.which === 13){
+            if (event.ctrlKey && event.which === 13 && jq.failedBtn.attr(`disabled`) !== false){
                 jq.failedBtn.trigger(`click`);
-            } else if (event.ctrlKey && event.shiftKey){
+            } else if (event.ctrlKey && event.shiftKey && jq.hintBtn.attr(`disabled`) !== false){
                 jq.hintBtn.trigger(`click`);
             } else if (event.shiftKey && event.which === 219){
                 event.preventDefault();
