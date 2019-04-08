@@ -25,6 +25,10 @@ img.logo {
     max-width: 50px;
 }
 
+.footer{
+    font-size: 12px;
+}
+
 @keyframes flash-response {
     from {
         opacity: 1;
