@@ -177,6 +177,23 @@ module.exports = {
                 callId
             });
         },
+        updateMany: async ({words, logging = true, callId = null}) => {
+            callId = h.generateCallId(callId);
+            const result = [];
+            for (let word of words){
+                const id = word._id;
+                delete word._id;
+                result.push(await generics.update({
+                    id,
+                    inputObj: word,
+                    modelName: `word`,
+                    logPathPrefix: ``,
+                    logging,
+                    callId
+                }));
+            }
+            return result;
+        },
         get: async ({id, logging = true, callId = null}) => {
             callId = h.generateCallId(callId);
             return await generics.get({
@@ -247,6 +264,22 @@ module.exports = {
                 return result;
             } catch (error){
                 logger.error(`Failed to get the next word : ${h.optionalStringify(error)}`, {identifier: `api word getNext`, meta: {}, callId});
+                throw error;
+            }
+        },
+        resetScore: async ({id = ``, userId, logging = true, callId = null}) => {
+            callId = h.generateCallId(callId);
+            logger.api(`Resetting words' score`, {logging, identifier: `api word resetScore`, meta: {id}, callId});
+            try{
+                let query = {userId};
+                if (id !== ``){
+                    query = {...query, _id: id};
+                }
+                const dbResponse = await mongoDb.word.updateMany(query, {$set: {score: 0, failed: 0, succeeded: 0}}).exec();
+                logger.api(`Done resetting the score`, {logging, identifier: `api word resetScore`, meta: {id}, callId});
+                return true;
+            } catch (error){
+                logger.error(`Failed to reset the score of words: ${h.optionalStringify(error)}`, {identifier: `api word resetScore`, meta: {id}, callId});
                 throw error;
             }
         },

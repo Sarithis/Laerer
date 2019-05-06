@@ -131,11 +131,56 @@ module.exports = {
     put: {
         /**
         **/
+        '/api/word/:id?/resetScore': async (req, res, next) => {
+            try {
+                if (req.params.id){
+                    const canUpdate = await checkUserPersmissions({req, model: `word`, id: req.params.id});
+                    if (!canUpdate){
+                        throw(`This user can't update a word with this ID`);
+                    }
+                }
+            } catch (error) {
+                return handleError(req, res, error);
+            }
+            performApiCall({req, res, apiFunc: api.word.resetScore, args: {
+                id: req.params.id,
+                userId: req.user._id.toString()
+            }});
+        },
+        /**
+        **/
+        '/api/word/many': async (req, res, next) => {
+            if (!handleMandatoryArgs({argMap: {data: true}, args: req.body})){
+                return handleError(req, res, `Incorrect or incomplete arguments`);
+            }
+            let parsedWords = null;
+            try {
+                parsedWords = h.optionalParse(req.body.data);
+                if (!Array.isArray(parsedWords)){
+                    return handleError(`Wrong data type, expected an array of words`);
+                }
+                for (let i = 0; i < parsedWords.length; i++){
+                    const parsedWord = parsedWords[i];
+                    const canUpdate = await checkUserPersmissions({req, model: `word`, id: parsedWord._id});
+                    if (!canUpdate){
+                        throw(`This user can't update a word with this ID`);
+                    }
+                    parsedWords[i].userId = req.user._id.toString(); //Override userId
+                }
+            } catch (error) {
+                return handleError(req, res, error);
+            }
+            performApiCall({req, res, apiFunc: api.word.updateMany, args: {
+                words: parsedWords
+            }});
+        },
+        /**
+        **/
         '/api/word/:id': async (req, res, next) => {
             if (!handleMandatoryArgs({argMap: {id: true}, args: req.params})){
                 return handleError(req, res, `Incorrect or incomplete arguments`);
             }
-            if (!handleMandatoryArgs({argMap: {id: true}, args: req.params})){
+            if (!handleMandatoryArgs({argMap: {data: true}, args: req.body})){
                 return handleError(req, res, `Incorrect or incomplete arguments`);
             }
             let parsedWord = null;

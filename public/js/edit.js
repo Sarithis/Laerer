@@ -29,9 +29,10 @@ $(document).ready(() => {
         },
         buildWordObjFromJq: (jqTr) => {
             const result = {};
-            jqTr.find(`td.saveable`).toArray().forEach((tr) => {
-                result[$(tr).attr(`cname`)] = $(tr).text();
+            jqTr.find(`td.saveable`).toArray().forEach((td) => {
+                result[$(td).attr(`cname`)] = $(td).text();
             });
+            result._id = jqTr.data(`id`);
             return result;
         }
     };
@@ -56,7 +57,7 @@ $(document).ready(() => {
             targets: `_all`
         }],
         createdRow: (row, data, dataIndex) => {
-            $(row).data(`id`, data._id);
+            $(row).attr(`data-id`, data._id);
         },
         columns: [{
             title: `ID`,
@@ -99,16 +100,6 @@ $(document).ready(() => {
             createdCell: (td, cellData, rowData, row, col) => {
                 $(td).attr(`cname`, `score`);
             }
-        }, {
-            title: `Action`,
-            data: () => {
-                return `
-                    <div cname="action">
-                        <button class="btn btn-small btn-primary actionButton" cname="edit">Edit</button>
-                        <button class="btn btn-small btn-danger actionButton" cname="delete">Delete</button>
-                    </div>
-                `;
-            },
         }]
     });
 
@@ -135,10 +126,39 @@ $(document).ready(() => {
         }
     });
 
-    jq.wordTable.on(`click`, `.actionButton[cname="delete"]`, async function (event) {
-        event.stopPropagation();
+    jq.resetScoreBtn.click(async () => {
         try{
-            const jqTr = $(this).closest(`tr`);
+            const selectedRowNode = dt.row(`.selected`).node()
+            if (!selectedRowNode || selectedRowNode === null){
+                $.notify(`You need to select a row first`, `warn`);
+                return false;
+            }
+            const jqTr = $(selectedRowNode);
+            const wordIndex = jqTr.find(`td[cname="index"]`).text();
+            if (isNaN(wordIndex)){
+                $.notify(`Wrong word index value, canceling this operation`, `error`);
+                return;
+            } else {
+                const response = await api.word.resetScore(jqTr.data(`id`));
+                if (!response.status){
+                    throw(`Oops, something went wrong!`);
+                }
+            }
+            window.location.reload();
+        } catch (error){
+            handleError(error);
+        }
+    });
+
+
+    jq.deleteWordBtn.click(async (event) => {
+        try{
+            const selectedRowNode = dt.row(`.selected`).node()
+            if (!selectedRowNode || selectedRowNode === null){
+                $.notify(`You need to select a row first`, `warn`);
+                return false;
+            }
+            const jqTr = $(selectedRowNode);
             const wordId = jqTr.data(`id`);
             const wordIndex = jqTr.find(`td[cname="index"]`).text();
             if (typeof wordId !== `string`){
@@ -159,30 +179,43 @@ $(document).ready(() => {
         }
     });
 
-    jq.wordTable.on(`click`, `.actionButton[cname="edit"]`, function (event) {
-        event.stopPropagation();
+    jq.editWordBtn.click((event) => {
         try{
-            const jqTr = $(this).closest(`tr`);
+            const selectedRowNode = dt.row(`.selected`).node()
+            if (!selectedRowNode || selectedRowNode === null){
+                $.notify(`You need to select a row first`, `warn`);
+                return false;
+            }
+            const jqTr = $(selectedRowNode);
             f.editWordDom(jqTr);
         } catch (error) {
             handleError(error);
         }
     });
 
-    jq.wordTable.on(`click`, `.actionButton[cname="save"]`, async function (event) {
-        event.stopPropagation();
+    jq.saveWordBtn.click(async function () {
         try{
-            $(this).attr(`disabled`, true);
-            const jqTr = $(this).closest(`tr`);
-            const wordId = jqTr.data(`id`);
-            f.saveWordDom(jqTr);
-            const updatedWordObj = f.buildWordObjFromJq(jqTr);
-            const response = await api.word.update(wordId, updatedWordObj);
+            const editedRows = dt.rows(`.editing`).nodes();
+            if (!editedRows || editedRows === null || editedRows.length === 0){
+                $.notify(`You need to edit a row first`, `warn`);
+                return false;
+            }
+            const updatedWordArr = [];
+            for (let editedRow of Array.from(editedRows)){
+                const jqTr = $(editedRow);
+                f.saveWordDom(jqTr);
+                const updatedWordObj = f.buildWordObjFromJq(jqTr);
+                updatedWordArr.push(updatedWordObj);
+            }
+            const response = await api.word.updateMany(updatedWordArr);
             if (!response.status){
                 throw(`Oops, something went wrong!`);
             }
-            dt.row(jqTr).data(response.data).draw(false);
-            $.notify(`Word saved!`, `success`);
+            response.data.forEach((data) => {
+                const jqTr = $(`tr[data-id="${data._id}"]`);
+                dt.row(jqTr).data(data).draw(false);
+            });
+            $.notify(`Words saved!`, `success`);
             $(this).attr(`disabled`, false);
         } catch (error) {
             handleError(error);
@@ -191,11 +224,20 @@ $(document).ready(() => {
 
     jq.wordTable.on(`keydown`, `input`, function (event) {
         if (event.which === 13){
-            const jqTr = $(this).closest(`tr`);
-            jqTr.find(`button[cname="save"]`).trigger(`click`);
+            jq.saveWordBtn.trigger(`click`);
         }
 
     });
+
+    jq.wordTable.find(`tbody`).on(`click`, `tr`, function() {
+        if ($(this).hasClass(`selected`)) {
+            $(this).removeClass(`selected`);
+        } else {
+            dt.$(`tr.selected`).removeClass(`selected`);
+            $(this).addClass(`selected`);
+        }
+    });
+
     $(`body`).keydown((event) => {
         if (event.ctrlKey && event.which === 48){
             jq.addWordBtn.trigger(`click`);

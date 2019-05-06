@@ -42,5 +42,15 @@ const api = {
         update: (wordId, wordObj) => {
             return api._performAjaxCall(`/api/word/${encodeURIComponent(wordId)}`, `PUT`, wordObj);
         },
+        updateMany: (wordObjs) => {
+            return api._performAjaxCall(`/api/word/many`, `PUT`, wordObjs);
+        },
+        resetScore: (wordId = ``) => {
+            if (wordId === ``){
+                return api._performAjaxCall(`/api/word/resetScore`, `PUT`);
+            } else {
+                return api._performAjaxCall(`/api/word/${encodeURIComponent(wordId)}/resetScore`, `PUT`);
+            }
+        },
     }
 };
