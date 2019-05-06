@@ -5,12 +5,14 @@
 **/
 
 const dotObj = require(`dot-object`);
+const synonyms = require(`synonyms`);
 const h = require(`../helpers`);
 const logger = require(`../logger`).appLogger;
 const mongoDb = require(`../db`).mongo.models;
 const mongoTypes = require(`../db`).mongo.mongoose.Types;
 const mongoose = require(`../db`).mongo.mongoose;
 const config = require(`../config`);
+const localSynonyms = require(`../localSynonyms`);
 
 logger.setup(`Initializing the API module`, {identifier: `api`});
 
@@ -260,6 +262,21 @@ module.exports = {
                 }
                 //Determine the direction of translation
                 result.translateFromForeign = Math.random() > 0.8 ? true : false;
+                //Get synonyms
+                result.synonyms = [];
+                if (result.translateFromForeign){
+                    const foundSynonyms = synonyms(result.translation);
+                    if (foundSynonyms !== undefined && Object.keys(foundSynonyms).length > 0){
+                        for (let prop in foundSynonyms){
+                            result.synonyms = result.synonyms.concat(foundSynonyms[prop]);
+                        }
+                    }
+                } else {
+                    const foundSynonyms = localSynonyms.norwegian[result.word];
+                    if (foundSynonyms){
+                        result.synonyms = localSynonyms.norwegian[result.word];
+                    }
+                }
                 logger.api(`Returning the next word: ${result.word}`, {logging, identifier: `api word getNext`, meta: {result}, callId});
                 return result;
             } catch (error){

@@ -195,13 +195,22 @@ $(document).ready(() => {
             }
             const calculateSimilarityTo = f.getTextTranslated(wordObj);
             const calculateSimilarityFrom = $(this).val();
-            const newSimilarity = helpers.similarity(calculateSimilarityFrom, calculateSimilarityTo);
+            let newSimilarity = helpers.similarity(calculateSimilarityFrom, calculateSimilarityTo);
+            if (wordObj.synonyms && wordObj.synonyms.length > 0){
+                wordObj.synonyms.some((synonym) => {
+                    if (synonym.toLowerCase() === calculateSimilarityFrom){
+                        newSimilarity = 1;
+                        return true;
+                    }
+                });
+            }
 
             f.animateBackground(lastSimilarity, newSimilarity);
             lastSimilarity = newSimilarity;
             if (newSimilarity === 1){
                 if (!wordObj.translateFromForeign){
-                    f.speak(f.getTextTranslated(wordObj), `Norwegian Female`);
+                    $(this).val(calculateSimilarityTo);
+                    f.speak(calculateSimilarityTo, `Norwegian Female`);
                 }
                 $(this).attr(`disabled`, true);
                 jq.nextBtn.effect(`pulsate`, {times: 1}, 400);
