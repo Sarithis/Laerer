@@ -81,6 +81,12 @@ $(document).ready(() => {
                 $(td).attr(`cname`, `word`);
             }
         }, {
+            title: `Context`,
+            data: `context`,
+            createdCell: (td, cellData, rowData, row, col) => {
+                $(td).attr(`cname`, `context`);
+            }
+        }, {
             title: `Art. tr.`,
             data: `articleTranslation`,
             createdCell: (td, cellData, rowData, row, col) => {
@@ -91,6 +97,12 @@ $(document).ready(() => {
             data: `translation`,
             createdCell: (td, cellData, rowData, row, col) => {
                 $(td).attr(`cname`, `translation`);
+            }
+        }, {
+            title: `Foreign context`,
+            data: `contextTranslation`,
+            createdCell: (td, cellData, rowData, row, col) => {
+                $(td).attr(`cname`, `contextTranslation`);
             }
         }, {
             title: `Score`,

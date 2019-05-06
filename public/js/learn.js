@@ -6,6 +6,7 @@ $(document).ready(() => {
         hintBtn: $(`button[cname="hint"]`),
         failedBtn: $(`button[cname="failed"]`),
         toTranslate: $(`.card-body > [cname="toTranslate"]`),
+        context: $(`.card-body > [cname="context"]`),
         translationInpt: $(`input[cname="translationInpt"]`),
         title: $(`.card-header`),
         input: $(`input[cname="translation"]`)
@@ -115,10 +116,13 @@ $(document).ready(() => {
             const articleToTranslate = wordObj.translateFromForeign ? wordObj.articleTranslation : wordObj.article;
             return !articleToTranslate || articleToTranslate == `` ? wordToTranslate : `${articleToTranslate} ${wordToTranslate}`;
         },
+        getContext: (wordObj) => {
+            return wordObj.translateFromForeign ? wordObj.contextTranslation : wordObj.context;
+        },
         updateDomsFromWordObj: (wordObj) => {
             const toTranslateText = f.getTextToTranslate(wordObj);
-
             jq.toTranslate.text(toTranslateText);
+            jq.context.text(f.getContext(wordObj));
             jq.title.html(`A <strong class="translationDirection">${wordObj.translateFromForeign ? `<span class="text-info">foreign</span>` : `<span class="text-success">native</span>`}</strong> word to translate:`);
             jq.failedBtn.attr(`disabled`, false);
             jq.hintBtn.attr(`disabled`, false);

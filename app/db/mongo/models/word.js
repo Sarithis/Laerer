@@ -16,6 +16,12 @@ module.exports = (mongoose) => {
             trim: true,
             lowercase: true,
         },
+        context: {
+            required: false,
+            type: String,
+            trim: true,
+            lowercase: true,
+        },
         translation: {
             required: true,
             type: String,
@@ -23,6 +29,12 @@ module.exports = (mongoose) => {
             lowercase: true,
         },
         articleTranslation: {
+            required: false,
+            type: String,
+            trim: true,
+            lowercase: true,
+        },
+        contextTranslation: {
             required: false,
             type: String,
             trim: true,
