@@ -15,26 +15,32 @@
 
 <div class="row justify-content-center align-items-center">
     <div class="col-md-8">
-        <h5 class="text-center bg-secondary text-white p-3 m-0 border-bottom border-light">
-            <a href="/main" class="position-absolute" style="left: 30px; font-size: 25px;" title="Go back">
-                <i class="fa fa-arrow-left text-white"></i>
-            </a> Your wordlist:
-            <button class="btn btn-success position-absolute" style="right: 30px; top: 10px;" id="addWordBtn">Add new</button>
-        </h5>
-        <div class="h-75">
-            <table class="table table-bordered table-hover bg-light" id="wordTable">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" style="width: 3%;">#</th>
-                        <th scope="col" style="width: 7%;">Art.</th>
-                        <th scope="col" style="width: 18%;">Word</th>
-                        <th scope="col" style="width: 7%;">For. Art.</th>
-                        <th scope="col" style="width: 18%;">Foreign Word</th>
-                        <th scope="col" style="width: 5%;">Score</th>
-                        <th scope="col" style="width: 12%;">Action</th>
-                    </tr>
-                </thead>
-            </table>
+        <div class="row bg-secondary m-0 border-bottom border-light" id="editActionButtons">
+            <div class="col-sm-12 text-center p-2">
+                <div className="btn-group">
+                    <button class="btn btn-success" id="addWordBtn">Add new</button>
+                    <button class="btn btn-warning" id="resetScoreBtn">Reset score</button>
+                    <button class="btn btn-primary" id="editWordBtn">Edit</button>
+                    <button class="btn btn-success" id="saveWordBtn">Save</button>
+                    <button class="btn btn-danger" id="deleteWordBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+        <div class="row pb-5">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-hover bg-light" id="wordTable">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" style="width: 3%;">#</th>
+                            <th scope="col" style="width: 7%;">Art.</th>
+                            <th scope="col" style="width: 18%;">Word</th>
+                            <th scope="col" style="width: 7%;">For. Art.</th>
+                            <th scope="col" style="width: 18%;">Foreign Word</th>
+                            <th scope="col" style="width: 5%;">Score</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 </div>

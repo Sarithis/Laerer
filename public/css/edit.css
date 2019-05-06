@@ -8,6 +8,10 @@
     background-color: black;
 }
 
+.selected{
+    background-color: rgba(0,0,0,.075);
+}
+
 #wordTable{
     margin-top: 0 !important;
 }
