@@ -82,7 +82,7 @@ $(document).ready(() => {
                 jq.failedBtn.attr(`disabled`, true);
                 const updatedWordObj = wordObj;
                 updatedWordObj.failed += 1;
-                updatedWordObj.score = (parseFloat(updatedWordObj.score) - 0.1).toFixed(2);
+                updatedWordObj.score = (parseFloat(updatedWordObj.score) - 0.3).toFixed(2);
                 updatedWordObj.translatedTimestamp = Date.now();
                 const response = await api.word.update(wordObj._id, updatedWordObj);
                 if (!response.status){
@@ -96,7 +96,7 @@ $(document).ready(() => {
             try{
                 jq.hintBtn.attr(`disabled`, true);
                 const updatedWordObj = wordObj;
-                updatedWordObj.score = (parseFloat(updatedWordObj.score) - 0.05).toFixed(2);
+                updatedWordObj.score = (parseFloat(updatedWordObj.score) - 0.1).toFixed(2);
                 const response = await api.word.update(wordObj._id, updatedWordObj);
                 if (!response.status){
                     throw(`Oops, something went wrong! Refresh the page`);

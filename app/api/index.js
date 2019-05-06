@@ -229,8 +229,15 @@ module.exports = {
                     result = dbResponse.map((entry) => {
                         return entry.toObject();
                     });
-                    //Sort the extracted words by translatedTimestamp
-                    result = result.reduce((prev, current) => (prev.translatedTimestamp < current.translatedTimestamp) ? prev : current);
+                    //result = result.reduce((prev, current) => (prev.translatedTimestamp < current.translatedTimestamp) ? prev : current);
+                    //Sort the words by timestamp ascending (latest are last)
+                    result.sort((a, b) => {return a.translatedTimestamp < b.translatedTimestamp});
+                    //Cut the result array in half
+                    if (result.length > 2){
+                        result = result.slice(0, Math.ceil(result.length / 2));
+                    }
+                    //Draw a random word from the result array
+                    result = result[h.getRandomInt(0, result.length)];
                 } else {
                     result = dbResponse.toObject();
                 }
