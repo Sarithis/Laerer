@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 /**
     Exposes an object which can log data in the defined destination containers

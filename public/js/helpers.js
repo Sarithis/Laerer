@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 /* global DotObject */
 
 Number.prototype.pad = function(size) {

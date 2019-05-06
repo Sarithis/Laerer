@@ -1,22 +1,22 @@
-`use strict`;
+"use strict";
 
 
 $(document).ready(() => {
     const jq = {
         addWordBtn: $(`#addWordBtn`),
+        deleteWordBtn: $(`#deleteWordBtn`),
+        editWordBtn: $(`#editWordBtn`),
+        resetScoreBtn: $(`#resetScoreBtn`),
+        saveWordBtn: $(`#saveWordBtn`),
         wordTable: $(`#wordTable`),
     };
-
     const f = {
         editWordDom: (jqTr) => {
             jqTr.find(`td.editable`).each((index, td) => {
                 $(td).html(`<input type="text" class="form-control" style="max-width: ${$(td).width()}; min-width: ${$(td).width()}" value="${$(td).text()}"></input>`);
             });
             jqTr.find(`td.editable:first`).find(`input`).focus();
-            const jqButton = jqTr.find(`button[cname="edit"]`);
-            jqButton.removeClass(`btn-primary`).addClass(`btn-success`);
-            jqButton.attr(`cname`, `save`);
-            jqButton.text(`Save`);
+            jqTr.addClass(`editing`);
         },
         saveWordDom: (jqTr) => {
             jqTr.find(`td.editable`).each((index, td) => {

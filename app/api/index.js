@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 /**
     This module exposes the API of this app. It *DOES NOT* check user authentication, authorization and permissions - these are done in the router module.

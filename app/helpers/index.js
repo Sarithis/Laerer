@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 /**
     Provides helper functions used across the whole project

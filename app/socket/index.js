@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 const helpers = require(`../helpers`);
 const logger = require(`../logger`).appLogger;

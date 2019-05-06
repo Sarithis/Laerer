@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 /**
 	Scans the current directory and loads all model files

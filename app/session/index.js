@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 /**
     Configures and exposes an express-session instance

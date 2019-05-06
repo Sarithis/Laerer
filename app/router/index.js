@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 /**
     Sets up the whole routing and access to certain functionalities. Exposes the router object, which can be injected as middleware to express.

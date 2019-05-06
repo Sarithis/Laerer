@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 /**
     This module provides routes related to the REST API. It's separated from

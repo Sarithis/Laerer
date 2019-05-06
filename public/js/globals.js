@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 const handleError = (error) => {
     $.notify(`Error: ${JSON.stringify(error)}`, `error`);

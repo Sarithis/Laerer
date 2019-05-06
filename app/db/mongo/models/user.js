@@ -1,4 +1,4 @@
-`use strict`;
+"use strict";
 
 module.exports = (mongoose) => {
     const userSchema = new mongoose.Schema({
