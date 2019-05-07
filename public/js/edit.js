@@ -51,7 +51,7 @@ $(document).ready(() => {
         iDisplayLength: 10,
         columnDefs: [{
             className: `editable saveable text-center`,
-            targets: [1, 2, 3, 4]
+            targets: [1, 2, 3, 4, 5, 6]
         }, {
             className: `text-center`,
             targets: `_all`

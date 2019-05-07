@@ -238,7 +238,7 @@ module.exports = {
                 if (Math.random() > 0.1){ //A standard mode
                     //Get a random number of words (5-20) sorted ascending by score
                     logger.api(`Mode: standard`, {logging, identifier: `api word getNext`, meta: {}, callId});
-                    dbResponse = await mongoDb.word.find({userId: userId}).sort({score: 1}).limit(h.getRandomInt(5, 20)).exec();
+                    dbResponse = await mongoDb.word.find({userId: userId}).sort({score: 1}).limit(h.getRandomInt(10, 20)).exec();
                 } else { //Sometimes get the word that was not translated in a long time (ignore the score)
                     logger.api(`Mode: ignore the score`, {logging, identifier: `api word getNext`, meta: {}, callId});
                     dbResponse = await mongoDb.word.find({userId: userId}).sort({translatedTimestamp: 1}).limit(1).exec();
@@ -250,13 +250,17 @@ module.exports = {
                     });
                     //result = result.reduce((prev, current) => (prev.translatedTimestamp < current.translatedTimestamp) ? prev : current);
                     //Sort the words by timestamp ascending (latest are last)
-                    result.sort((a, b) => {return a.translatedTimestamp < b.translatedTimestamp});
+                    logger.api(`Got ${result.length} words to sort`, {logging, identifier: `api word getNext`, meta: {result}, callId});
+                    result.sort((a, b) => {return new Date(a.translatedTimestamp) - new Date(b.translatedTimestamp)});
+                    logger.api(`Sorted the words by timestamp. Result: \n${result.map(word => word.translation).join(`, `)}`, {logging, identifier: `api word getNext`, meta: {result}, callId});
                     //Cut the result array in half
                     if (result.length > 2){
                         result = result.slice(0, Math.ceil(result.length / 2));
+                        logger.api(`Sliced the words in half. Result: \n${result.map(word => word.translation).join(`, `)}`, {logging, identifier: `api word getNext`, meta: {result}, callId});
                     }
                     //Draw a random word from the result array
                     result = result[h.getRandomInt(0, result.length)];
+                    logger.api(`Drew a random word`, {logging, identifier: `api word getNext`, meta: {result}, callId});
                 } else {
                     result = dbResponse.toObject();
                 }
