@@ -9,7 +9,8 @@ $(document).ready(() => {
         context: $(`.card-body > [cname="context"]`),
         translationInpt: $(`input[cname="translationInpt"]`),
         title: $(`.card-header`),
-        input: $(`input[cname="translation"]`)
+        input: $(`input[cname="translation"]`),
+        speaker: $(`i[cname="speaker"]`)
     };
 
     let pJS = null;
@@ -187,6 +188,7 @@ $(document).ready(() => {
 
     (async () => {
         let wordObj = await f.getNextWord();
+        let finishedTranslation = false;
         f.updateDomsFromWordObj(wordObj);
         let lastSimilarity = 0;
         jq.input.keyup(function (event) {
@@ -200,6 +202,7 @@ $(document).ready(() => {
                 wordObj.synonyms.some((synonym) => {
                     if (synonym.toLowerCase() === calculateSimilarityFrom){
                         newSimilarity = 1;
+                        finishedTranslation = true;
                         return true;
                     }
                 });
@@ -208,6 +211,7 @@ $(document).ready(() => {
             f.animateBackground(lastSimilarity, newSimilarity);
             lastSimilarity = newSimilarity;
             if (newSimilarity === 1){
+                finishedTranslation = true;
                 if (!wordObj.translateFromForeign){
                     $(this).val(calculateSimilarityTo);
                     f.speak(calculateSimilarityTo, `Norwegian Female`);
@@ -241,6 +245,7 @@ $(document).ready(() => {
             lastSimilarity = 0;
             await f.successTranslation(wordObj);
             wordObj = await f.getNextWord();
+            finishedTranslation = false;
             f.restorePJSConfig();
             f.updateDomsFromWordObj(wordObj);
         });
@@ -252,6 +257,7 @@ $(document).ready(() => {
             jq.hintBtn.attr(`disabled`, true);
             f.animateBackground(0, 0, true);
             jq.nextBtn.attr(`disabled`, false);
+            finishedTranslation = true;
             if (!wordObj.translateFromForeign){
                 f.speak(f.getTextTranslated(wordObj), `Norwegian Female`);
             }
@@ -266,6 +272,13 @@ $(document).ready(() => {
                 jq.input.val(translatedText.substr(0, Math.floor(translatedText.length / 3)));
             }
             jq.input.focus();
+        });
+        console.log(jq.speaker);
+        jq.speaker.click(() => {
+            console.log(wordObj.translateFromForeign, finishedTranslation);
+            if (wordObj.translateFromForeign || finishedTranslation){
+                f.speak(`${wordObj.article} ${wordObj.word}`, `Norwegian Female`);
+            }
         });
     })();
 });
