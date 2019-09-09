@@ -13,6 +13,8 @@ const mongoTypes = require(`../db`).mongo.mongoose.Types;
 const mongoose = require(`../db`).mongo.mongoose;
 const config = require(`../config`);
 const localSynonyms = require(`../localSynonyms`);
+const googleTranslate = require(`google-translate`)(config.googleApiKey);
+
 
 logger.setup(`Initializing the API module`, {identifier: `api`});
 
@@ -303,6 +305,23 @@ module.exports = {
                 logger.error(`Failed to reset the score of words: ${h.optionalStringify(error)}`, {identifier: `api word resetScore`, meta: {id}, callId});
                 throw error;
             }
+        },
+    },
+    translation:{
+        get: ({phrase, fromLanguage, toLanguage, logging = true, callId = null}) => {
+            return new Promise((resolve, reject) => {
+                callId = h.generateCallId(callId);
+                logger.api(`Translating '${phrase}' from ${fromLanguage} to ${toLanguage}`, {logging, identifier: `api translation get`, meta: {phrase, fromLanguage, toLanguage}, callId});
+                googleTranslate.translate(phrase, fromLanguage, toLanguage, (error, result) => {
+                    if (error){
+                        logger.error(`Translation error: ${error}`, {logging, identifier: `api translation get`, meta: {phrase, fromLanguage, toLanguage}, callId});
+                        reject(error);
+                    } else {
+                        logger.api(`Finished translating '${phrase}' from ${fromLanguage} to ${toLanguage}`, {logging, identifier: `api translation get`, meta: {phrase, fromLanguage, toLanguage, result}, callId});
+                        resolve(result);
+                    }
+                });
+            });
         },
     }
 };

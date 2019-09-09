@@ -91,6 +91,16 @@ module.exports = {
                 userId: req.user._id.toString()
             }});
         },
+        '/api/translation': (req, res, next) => {
+            if (!handleMandatoryArgs({argMap: {phrase: true, fromLanguage: true, toLanguage: true}, args: req.query})){
+                return handleError(req, res, `Incorrect or incomplete arguments`);
+            }
+            performApiCall({req, res, apiFunc: api.translation.get, args: {
+                phrase: req.query.phrase,
+                fromLanguage: req.query.fromLanguage,
+                toLanguage: req.query.toLanguage
+            }});
+        },
     },
     post: {
         /**

@@ -245,6 +245,10 @@ $(document).ready(() => {
             lastSimilarity = 0;
             await f.successTranslation(wordObj);
             wordObj = await f.getNextWord();
+            if (wordObj.synonyms && wordObj.synonyms.length > 0){
+                $.notify(`${wordObj.synonyms.length} synonyms available for this word`, `info`);
+            }
+            window.wordObj = wordObj;
             finishedTranslation = false;
             f.restorePJSConfig();
             f.updateDomsFromWordObj(wordObj);

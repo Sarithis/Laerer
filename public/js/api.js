@@ -52,5 +52,10 @@ const api = {
                 return api._performAjaxCall(`/api/word/${encodeURIComponent(wordId)}/resetScore`, `PUT`);
             }
         },
+    },
+    translation: {
+        get: (phrase, fromLanguage, toLanguage) => {
+            return api._performAjaxCall(`/api/translation/?phrase=${encodeURIComponent(phrase)}&fromLanguage=${encodeURIComponent(fromLanguage)}&toLanguage=${encodeURIComponent(toLanguage)}`)
+        }
     }
 };

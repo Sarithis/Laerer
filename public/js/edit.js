@@ -27,10 +27,14 @@ $(document).ready(() => {
             jqButton.attr(`cname`, `edit`);
             jqButton.text(`Edit`);
         },
-        buildWordObjFromJq: (jqTr) => {
+        buildWordObjFromJq: (jqTr, inputMode = false) => {
             const result = {};
             jqTr.find(`td.saveable`).toArray().forEach((td) => {
-                result[$(td).attr(`cname`)] = $(td).text();
+                if (inputMode){
+                    result[$(td).attr(`cname`)] = $(td).find(`input`).val();
+                } else {
+                    result[$(td).attr(`cname`)] = $(td).text();
+                }
             });
             result._id = jqTr.data(`id`);
             return result;
@@ -239,6 +243,26 @@ $(document).ready(() => {
             jq.saveWordBtn.trigger(`click`);
         }
 
+    });
+    jq.wordTable.on(`focusout`, `td[cname="word"] input`, async function(event) {
+        try{
+            const jqTr = $(this).closest(`tr`);
+            const wordObj = f.buildWordObjFromJq(jqTr, true);
+            const response = await api.translation.get(`${wordObj.article ? wordObj.article + ' ' : ''}${wordObj.word}`, `no`, `en`);
+            if (!response.status){
+                throw(`Oops, something went wrong!`);
+            }
+            if (wordObj.article){
+                const split = response.data.translatedText.split(` `);
+                jqTr.find(`td[cname="articleTranslation"] input`).val(split[0]);
+                split.shift();
+                jqTr.find(`td[cname="translation"] input`).val(split.join(` `));
+            } else {
+                jqTr.find(`td[cname="translation"] input`).val(response.data.translatedText);
+            }
+        } catch (error) {
+            handleError(error);
+        }
     });
 
     jq.wordTable.find(`tbody`).on(`click`, `tr`, function() {

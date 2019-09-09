@@ -15,12 +15,14 @@ module.exports = (mongoose) => {
             type: String,
             trim: true,
             lowercase: true,
+            default: ``
         },
         context: {
             required: false,
             type: String,
             trim: true,
             lowercase: true,
+            default: ``
         },
         translation: {
             required: true,
@@ -33,12 +35,14 @@ module.exports = (mongoose) => {
             type: String,
             trim: true,
             lowercase: true,
+            default: ``
         },
         contextTranslation: {
             required: false,
             type: String,
             trim: true,
             lowercase: true,
+            default: ``
         },
         score: {
             required: false,
