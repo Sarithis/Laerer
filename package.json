@@ -53,7 +53,7 @@
         "jquery": "^3.3.1",
         "jquery-ui-dist": "^1.12.1",
         "moment-timezone": "^0.5.23",
-        "mongoose": "^5.4.19",
+        "mongoose": "^5.7.5",
         "morgan": "^1.9.1",
         "particles.js": "^2.0.0",
         "passport": "^0.4.0",
